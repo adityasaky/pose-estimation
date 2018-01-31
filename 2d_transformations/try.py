@@ -1,6 +1,7 @@
 import numpy as np
 import math
 
+
 def rotate(transformation_angle, data):
     transformation_angle = transformation_angle * math.pi / 180
     sine = math.sin(transformation_angle)
