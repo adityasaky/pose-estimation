@@ -50,12 +50,12 @@ net_transform = net_transform.dot(rotate(-90))
 print "After rotation, transformation matrix is:"
 print net_transform
 
-net_transform = net_transform.dot(scale(2, 2))
-print "After scaling, transformation matrix is:"
-print net_transform
-
 net_transform = net_transform.dot(translate(10, 10))
 print "After translation, transformation matrix is:"
+print net_transform
+
+net_transform = net_transform.dot(scale(2, 2))
+print "After scaling, transformation matrix is:"
 print net_transform
 
 print "Resultant matrix is:"
