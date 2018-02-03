@@ -1,6 +1,7 @@
 import numpy as np
 import math
 import pickle
+import os, sys
 
 
 def rotate(angle):
@@ -28,5 +29,5 @@ for i in range(0, 61, 3):
         translation_matrix = translate(j)
         transformation_matrix = rotation_matrix.dot(translation_matrix)
         pickle_name = "tm_" + str(i) + "_" + str(j) + ".pkl"
-        with open("./pickle_files/" + pickle_name, 'wb+') as f:
-            pickle.dump(translation_matrix, f)
+        with open(os.path.dirname(sys.modules['__main__'].__file__) + "/pickle_files/" + pickle_name, 'wb+') as f:
+            pickle.dump(transformation_matrix, f)
