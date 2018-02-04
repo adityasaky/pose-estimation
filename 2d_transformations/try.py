@@ -17,13 +17,6 @@ def rotate(transformation_angle):
     return rotation
 
 
-def scale(sx, sy):
-    scaling = np.identity(3)
-    scaling[0][0] = sx
-    scaling[1][1] = sy
-    return scaling
-
-
 def translate(tx, ty):
     translation = np.identity(3)
     translation[0][2] = tx
@@ -52,10 +45,6 @@ print net_transform
 
 net_transform = net_transform.dot(translate(10, 10))
 print "After translation, transformation matrix is:"
-print net_transform
-
-net_transform = net_transform.dot(scale(2, 2))
-print "After scaling, transformation matrix is:"
 print net_transform
 
 print "Resultant matrix is:"
