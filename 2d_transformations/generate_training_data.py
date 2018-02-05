@@ -43,3 +43,4 @@ for pcd_file in os.listdir(source_directory):
                         z = '0'
                         row = x + ' ' + y + ' ' + z + '\n'
                         o.write(row)
+
