@@ -7,6 +7,9 @@ source_directory = "../pointclouds/"
 training_directory = "../training_data/"
 transformations_directory = "./pickle_files/"
 
+x_limit = 10.0
+y_limit = 10.0
+
 for pcd_file in os.listdir(source_directory):
     with open(source_directory + pcd_file, 'r') as f:
         all_points = f.readlines()[11:]
@@ -25,7 +28,7 @@ for pcd_file in os.listdir(source_directory):
                 all_lines = list()
                 for point in all_points:
                     point_list = point.split(' ')
-                    if -10.0 <= float(point_list[0]) <= 10.0 and -10.0 <= float(point_list[1]) <= 10.0:
+                    if -x_limit <= float(point_list[0]) <= x_limit and -y_limit <= float(point_list[1]) <= y_limit:
                         count += 1
                         data = np.matrix(point_list[0] + ' ; ' + point_list[1] + ' ; ' + '1')
                         transformation_result = np.dot(transformation, data)
