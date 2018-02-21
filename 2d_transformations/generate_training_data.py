@@ -10,7 +10,6 @@ transformations_directory = "./pickle_files/"
 for pcd_file in os.listdir(source_directory):
     with open(source_directory + pcd_file, 'r') as f:
         all_points = f.readlines()[11:]
-        file_width = len(all_points)
         source_name = pcd_file.split('.')[0]
         target_directory = training_directory + source_name + '/'
         print 'Reading ' + source_name + '...'
