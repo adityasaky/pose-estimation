@@ -18,7 +18,7 @@ for pcd_file in os.listdir(source_directory):
         all_lines = list()
         for point in all_points:
             point_list = point.split(' ')
-            if -x_limit <= float(point_list[0]) <= x_limit and -y_limit <= float(point_list[1]) <= y_limit:
+            if -x_limit <= float(point_list[0]) <= x_limit and -y_limit <= float(point_list[1]) <= y_limit and float(point_list[2]) > -0.5:
                 count += 1
                 all_lines.append(point)
         with open(target_directory + target_name, 'w') as o:
