@@ -21,4 +21,3 @@ for pcd_file in os.listdir(source_directory):
     filtered_points = pcl.PointCloud()
     filtered_points.from_array(filtered_points_array)
     filtered_points.to_file(target_directory + target_name)
-
