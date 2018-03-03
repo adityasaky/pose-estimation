@@ -20,4 +20,5 @@ for pcd_file in os.listdir(source_directory):
     filtered_points_array = all_points_array[np.where((abs(all_points_array[:, 0]) < x_limit) & (abs(all_points_array[:, 1]) < y_limit) & (all_points_array[:, 2] >= 0.1))]
     filtered_points = pcl.PointCloud()
     filtered_points.from_array(filtered_points_array)
+    print "Writing " + target_name
     filtered_points.to_file(target_directory + target_name)
