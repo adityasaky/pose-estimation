@@ -15,7 +15,6 @@ print(img1_nshp.shape)
 print(img2_nshp.shape)
 # Concatenate images ..
 img_concat = np.concatenate((img1_nshp, img2_nshp), axis=2)
-img_concat.shape
 
 # Open a PCD file and convert (rescale) to 160X120 ..
 height = 160 
