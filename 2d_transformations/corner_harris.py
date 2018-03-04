@@ -11,13 +11,24 @@ img1 = cv2.imread(source1, 0)
 img1 = np.float32(img1)
 corners1 = cv2.cornerHarris(img1, 2, 3, 0.4)
 plt.imshow(corners1)
-print len(img1), len(corners1)
 plt.show()
+
+count = 0
+for row in corners1:
+    for col in row:
+        if col != 0.0:
+            count += 1
+print count
 
 img2 = cv2.imread(source2, 0)
 img2 = np.float32(img2)
 corners2 = cv2.cornerHarris(img2, 2, 3, 0.4)
 plot2 = plt.imshow(corners2)
-print len(img2), len(corners2)
 plt.show()
 
+count = 0
+for row in corners2:
+    for col in row:
+        if col != 0.0:
+            count += 1
+print count
