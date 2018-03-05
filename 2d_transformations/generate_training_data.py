@@ -14,6 +14,8 @@ z_limit = 0.1
 
 for pcd_file in os.listdir(source_directory):
     source_name = pcd_file.split('.')[0]
+    if not pcd_file.endswith('.pcd'):
+        continue
     print "Reading " + source_name
     all_points = pcl.load(source_directory + pcd_file)
     all_points_array = all_points.to_array()
@@ -32,7 +34,7 @@ for pcd_file in os.listdir(source_directory):
             transformation_result_matrix = np.dot(filtered_points_matrix, transformation)
             transformation_result_array = np.array(transformation_result_matrix)
             transformation_result = pcl.PointCloud()
-            transformation_result.from_array(transformation_result_array)
+            transformation_result.from_array(np.float32(transformation_result_array))
             print "Writing " + target_name
             transformation_result.to_file(target_directory + target_name)
 
