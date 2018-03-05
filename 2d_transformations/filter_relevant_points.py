@@ -10,6 +10,8 @@ source_directory = "../pointclouds/"
 target_directory = "../pointclouds_filtered/" + str(x_limit) + "_" + str(y_limit) + "_" + str(z_limit) + "/"
 
 for pcd_file in os.listdir(source_directory):
+    if not pcd_file.endswith('.pcd'):
+        continue
     all_points = pcl.load(source_directory + pcd_file)
     source_name = pcd_file.split('.')[0]
     print "Reading " + source_name + "..."
