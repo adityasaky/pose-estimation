@@ -47,7 +47,7 @@ def xyToimage(x, y, z, avgHeight):
 for source, dirs, files in os.walk(source_directory):
     for file in files:
         # file = '1000.pcd'
-        cloud = pcl.load(files)
+        cloud = pcl.load(file)
         ptAr = cloud.to_array()
         x = ptAr[:, 0]
         y = ptAr[:, 1]
