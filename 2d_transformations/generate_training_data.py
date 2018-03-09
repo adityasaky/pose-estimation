@@ -4,7 +4,7 @@ import numpy as np
 import pcl
 
 
-source_directory = "../pointclouds/"
+source_directory = "../pointclouds_filtered/10.0_10.0/"
 training_directory = "../training_data/"
 transformations_directory = "./pickle_files/"
 
