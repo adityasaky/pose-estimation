@@ -18,4 +18,4 @@ for pcd_file in os.listdir(source_directory):
     result = cloud_filter.filter()
     if not os.path.exists(target_directory):
         os.makedirs(target_directory)
-    pcl.save(result, target_directory + pcd_file)
+    pcl.save(result, target_directory + pcd_file.split('.')[0] + "-" + str(x_leaf) + "_" + str(y_leaf) + "_" + str(z_leaf) + ".pcd")
