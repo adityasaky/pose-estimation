@@ -1,18 +1,67 @@
 from posenet.model import create_model
+from keras.optimizers import SGD
+from keras.preprocessing.image import ImageDataGenerator
+
+
+base_lr = 0.05
+epochs = 1
+epoch_step = 265
+val_step = 239
+val_batch_size = 16
+img_ht = 160
+img_wt = 160
+train_dir_1 = 'dataset/train/train_1'
+train_dir_2 = 'dataset/train/train_2'
+test_dir_1 = 'dataset/validation/valid_1'
+test_dir_2 = 'dataset/validation/valid_2'
+batch_size = 64
+input_imgen = ImageDataGenerator()
+test_imgen = ImageDataGenerator()
+
+
+def generate_generator_multiple(generator, dir1, dir2, batch_size, img_height, img_width):
+
+    genX1 = generator.flow_from_directory(dir1,
+                                          target_size=(img_height, img_width),
+                                          batch_size=batch_size)
+
+    genX2 = generator.flow_from_directory(dir2,
+                                          target_size=(img_height, img_width),
+                                          batch_size=batch_size)
+
+    while True:
+        X1i = genX1.next()
+        X2i = genX2.next()
+        yield [X1i[0], X2i[0]]
 
 
 def main():
     model = create_model()
 
-    # Conf
-    # batch_size = 64
-    base_lr = 0.05
-
     sgd = SGD(lr=base_lr, momentum=0.9)
-    model.compile(optimizer=sgd, loss='mean_squared_error', metrics=[accuracy])
+    model.compile(optimizer=sgd, loss='mean_squared_error', metrics=['accuracy'])
 
-    # train
+    input_generator = generate_generator_multiple(generator=input_imgen,
+                                                  dir1=train_dir_1,
+                                                  dir2=train_dir_2,
+                                                  batch_size=batch_size,
+                                                  img_height=img_ht,
+                                                  img_width=img_wt)
+
+    test_generator = generate_generator_multiple(test_imgen,
+                                                 dir1=train_dir_1,
+                                                 dir2=train_dir_2,
+                                                 batch_size=val_batch_size,
+                                                 img_height=img_ht,
+                                                 img_width=img_wt)
+
+    model.fit_generator(generator=input_generator, epochs=epochs,
+                        validation_data=test_generator,
+                        verbose=2,
+                        steps_per_epoch=epoch_step,
+                        validation_steps=val_step,
+                        shuffle=True)
 
 
-if __name__ == '__main__':
+if __name__ == main():
     main()

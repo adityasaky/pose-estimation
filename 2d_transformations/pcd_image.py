@@ -44,16 +44,18 @@ def xyToimage(x, y, z, avgHeight):
     return img
 
 
-for source, dirs, files in os.walk(source_directory):
+for root, dirs, files in os.walk(source_directory):
     for file in files:
+        path = os.path.join(root, file)
         # file = '1000.pcd'
-        cloud = pcl.load(file)
+        cloud = pcl.load(path)
         ptAr = cloud.to_array()
         x = ptAr[:, 0]
         y = ptAr[:, 1]
         z = ptAr[:, 2]
         avgHeight = np.mean(z)
         img = xyToimage(x, y, z, avgHeight)
-        jpgFile = files.split('.pcd')[0] + ".jpg"
+        jpgFile = file.split('.pcd')[0] + ".jpg"
         cv2.imwrite(jpgFile, img)
+        print("generated jpgFile")
         # print(files)
