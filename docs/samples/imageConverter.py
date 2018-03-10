@@ -79,7 +79,7 @@ cv2.imwrite(jpgFile, img)
 
 # reads all pcds in a dir and converts to jpg
 # writes out the jpg file as 1.pcd.jpg
-dir = '../../pointclouds/'
+dir = '../../pointclouds_filtered/20.0_20.0_0.1/voxel_filtered/0.5_0.5_0.5/'
 fileList = glob.glob(dir + '*.pcd')
 for file in fileList:
     cloud = pcl.load(file)
