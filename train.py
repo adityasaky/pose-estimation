@@ -14,7 +14,7 @@ train_dir_1 = 'dataset/train/train_1'
 train_dir_2 = 'dataset/train/train_2'
 test_dir_1 = 'dataset/validation/valid_1'
 test_dir_2 = 'dataset/validation/valid_2'
-batch_size = 64
+batch_size = 1
 input_imgen = ImageDataGenerator()
 test_imgen = ImageDataGenerator()
 
