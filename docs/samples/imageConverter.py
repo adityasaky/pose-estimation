@@ -18,7 +18,7 @@ img_concat = np.concatenate((img1_nshp, img2_nshp), axis=2)
 
 # Open a PCD file and convert (rescale) to 160X120 ..
 height = 160 
-width = 120 
+width = 160
 
 heightMeters = 80
 widthMeters = 60
