@@ -19,20 +19,32 @@ input_imgen = ImageDataGenerator()
 test_imgen = ImageDataGenerator()
 
 
-def generate_generator_multiple(generator, dir1, dir2, batch_size, img_height, img_width):
-
-    genX1 = generator.flow_from_directory(dir1,
-                                          target_size=(img_height, img_width),
-                                          batch_size=batch_size)
-
-    genX2 = generator.flow_from_directory(dir2,
-                                          target_size=(img_height, img_width),
-                                          batch_size=batch_size)
+def generate_generator_multiple(generator, dir1, batch_size, img_height, img_width):
 
     while True:
         X1i = genX1.next()
         X2i = genX2.next()
         yield [X1i[0], X2i[0]]
+
+    genX1 = generator.flow_from_directory(dir1,
+                                          target_size=(img_height, img_width),
+                                          batch_size=batch_size)
+
+    for i1_index in range(len(genX1)):
+        # print(genX1.filenames[i1_index])
+        filename = genX1.filenames[i1_index]
+        target_directory = filename.split('/')[1].split('.')[0]
+        dir2 = './training_data/transformed_data/' + target_directory + '/'
+
+        genX2 = generator.flow_from_directory(dir2,
+                                              target_size=(img_height, img_width),
+                                              batch_size=batch_size)
+
+        for i2_index in range(len(genX2)):
+            filename2 = genX2.filenames[i2_index]
+
+            while True:
+                yield ([filename, filename2], )
 
 
 def main():
