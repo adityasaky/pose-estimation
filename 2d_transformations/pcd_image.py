@@ -1,10 +1,9 @@
 import pcl
 import numpy as np
-import os
 import cv2
+import glob
 
-source_directory = "../training_data"
-destination = "/home/ajay/img_data"
+source_directory = "../pointclouds_filtered/20.0_20.0_-0.5/"
 
 height = 160
 width = 160
@@ -28,7 +27,7 @@ def scaley(y):
     return height - 1 - ys
 
 
-def xyToimage(x, y, z, avgHeight):
+def map_to_image(x, y, z, avgHeight):
     global height, width
 
     img = np.zeros((height, width, 3), np.uint8)
@@ -44,18 +43,13 @@ def xyToimage(x, y, z, avgHeight):
     return img
 
 
-for root, dirs, files in os.walk(source_directory):
-    for file in files:
-        path = os.path.join(root, file)
-        # file = '1000.pcd'
-        cloud = pcl.load(path)
-        ptAr = cloud.to_array()
-        x = ptAr[:, 0]
-        y = ptAr[:, 1]
-        z = ptAr[:, 2]
-        avgHeight = np.mean(z)
-        img = xyToimage(x, y, z, avgHeight)
-        jpgFile = file.split('.pcd')[0] + ".jpg"
-        cv2.imwrite(jpgFile, img)
-        print("generated jpgFile")
-        # print(files)
+for pcd_file in glob.glob(source_directory + "*.pcd"):
+    cloud = pcl.load(pcd_file)
+    pt_ar = cloud.to_array()
+    x = pt_ar[:, 0]
+    y = pt_ar[:, 1]
+    z = pt_ar[:, 2]
+    avg_height = np.mean(z)
+    img = map_to_image(x, y, z, avg_height)
+    jpg_file = pcd_file.split('.pcd')[0] + ".jpg"
+    cv2.imwrite(jpg_file, img)
