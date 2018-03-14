@@ -5,7 +5,7 @@ import numpy as np
 
 x_limit = 20.0
 y_limit = 20.0
-z_limit = 0.1
+z_limit = -0.5
 source_directory = "../pointclouds/"
 target_directory = "../pointclouds_filtered/" + str(x_limit) + "_" + str(y_limit) + "_" + str(z_limit) + "/"
 
@@ -19,7 +19,7 @@ for pcd_file in os.listdir(source_directory):
     if not os.path.exists(target_directory):
         os.makedirs(target_directory)
     all_points_array = all_points.to_array()
-    filtered_points_array = all_points_array[np.where((abs(all_points_array[:, 0]) < x_limit) & (abs(all_points_array[:, 1]) < y_limit) & (all_points_array[:, 2] >= 0.1))]
+    filtered_points_array = all_points_array[np.where((abs(all_points_array[:, 0]) < x_limit) & (abs(all_points_array[:, 1]) < y_limit) & (all_points_array[:, 2] >= z_limit))]
     filtered_points = pcl.PointCloud()
     filtered_points.from_array(filtered_points_array)
     print "Writing " + target_name
