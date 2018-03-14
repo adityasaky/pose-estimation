@@ -21,30 +21,23 @@ test_imgen = ImageDataGenerator()
 
 def generate_generator_multiple(generator, dir1, batch_size, img_height, img_width):
 
-    while True:
-        X1i = genX1.next()
-        X2i = genX2.next()
-        yield [X1i[0], X2i[0]]
-
-    genX1 = generator.flow_from_directory(dir1,
+    gen1 = generator.flow_from_directory(dir1,
                                           target_size=(img_height, img_width),
-                                          batch_size=batch_size)
+                                          batch_size=batch_size,
+                                         shuffle=False)
 
     for i1_index in range(len(genX1)):
         # print(genX1.filenames[i1_index])
-        filename = genX1.filenames[i1_index]
-        target_directory = filename.split('/')[1].split('.')[0]
+        filename1 = gen1.filenames[i1_index]
+        target_directory = filename1.split('/')[1].split('.')[0]
         dir2 = './training_data/transformed_data/' + target_directory + '/'
-
-        genX2 = generator.flow_from_directory(dir2,
+        gen2 = generator.flow_from_directory(dir2,
                                               target_size=(img_height, img_width),
-                                              batch_size=batch_size)
-
+                                              batch_size=batch_size,
+                                             shuffle=False)
         for i2_index in range(len(genX2)):
             filename2 = genX2.filenames[i2_index]
-
-            while True:
-                yield ([filename, filename2], )
+            yield ([gen1[i1_index], gen2[i2_index]], filename2)
 
 
 def main():
@@ -55,14 +48,12 @@ def main():
 
     input_generator = generate_generator_multiple(generator=input_imgen,
                                                   dir1=train_dir_1,
-                                                  dir2=train_dir_2,
                                                   batch_size=batch_size,
                                                   img_height=img_ht,
                                                   img_width=img_wt)
 
     test_generator = generate_generator_multiple(test_imgen,
                                                  dir1=train_dir_1,
-                                                 dir2=train_dir_2,
                                                  batch_size=val_batch_size,
                                                  img_height=img_ht,
                                                  img_width=img_wt)
