@@ -10,7 +10,7 @@ val_step = 239
 val_batch_size = 16
 img_ht = 160
 img_wt = 160
-train_dir_1 = 'dataset/train/train_1'
+train_dir_1 = './pointclouds_filtered/20.0_20.0_0.1/'
 train_dir_2 = 'dataset/train/train_2'
 test_dir_1 = 'dataset/validation/valid_1'
 test_dir_2 = 'dataset/validation/valid_2'
@@ -23,11 +23,11 @@ def generate_generator_multiple(generator, dir1, batch_size, img_height, img_wid
 
     gen1 = generator.flow_from_directory(dir1, target_size=(img_height, img_width), batch_size=batch_size, shuffle=False)
 
-    for i1_index in range(len(genX1)):
+    for i1_index in range(len(gen1)):
         # print(genX1.filenames[i1_index])
         filename1 = gen1.filenames[i1_index]
         target_directory = filename1.split('/')[1].split('.')[0]
-        dir2 = './training_data/transformed_data/' + target_directory + '/'
+        dir2 = './training_data/' + target_directory + '/'
         gen2 = generator.flow_from_directory(dir2, target_size=(img_height, img_width), batch_size=batch_size, shuffle=False)
         for i2_index in range(len(genX2)):
             filename2 = genX2.filenames[i2_index]
