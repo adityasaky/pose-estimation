@@ -6,8 +6,8 @@ x_leaf = 0.5
 y_leaf = 0.5
 z_leaf = 0.5
 
-source_directory = "../pointclouds_filtered/20.0_20.0_0.1/"
-target_directory = "../pointclouds_filtered/20.0_20.0_0.1/voxel_filtered/" + str(x_leaf) + "_" + str(y_leaf) + "_" + str(z_leaf) + "/"
+source_directory = "../pointclouds/"
+target_directory = "../pointclouds/voxel_filtered/" + str(x_leaf) + "_" + str(y_leaf) + "_" + str(z_leaf) + "/"
 
 for pcd_file in os.listdir(source_directory):
     if not pcd_file.endswith(".pcd"):
