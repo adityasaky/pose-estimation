@@ -43,13 +43,28 @@ def map_to_image(x, y, z, avgHeight):
     return img
 
 
-for pcd_file in glob.glob(source_directory + "*.pcd"):
-    cloud = pcl.load(pcd_file)
-    pt_ar = cloud.to_array()
-    x = pt_ar[:, 0]
-    y = pt_ar[:, 1]
-    z = pt_ar[:, 2]
-    avg_height = np.mean(z)
-    img = map_to_image(x, y, z, avg_height)
-    jpg_file = pcd_file.split('.pcd')[0] + ".jpg"
-    cv2.imwrite(jpg_file, img)
+sub_directory = False
+
+if sub_directory:
+    for folder in glob.glob(source_directory):
+        for pcd_file in glob.glob(source_directory + folder + "*.pcd"):
+            cloud = pcl.load(pcd_file)
+            pt_ar = cloud.to_array()
+            x = pt_ar[:, 0]
+            y = pt_ar[:, 1]
+            z = pt_ar[:, 2]
+            avg_height = np.mean(z)
+            img = map_to_image(x, y, z, avg_height)
+            jpg_file = pcd_file.split('.pcd')[0] + ".jpg"
+            cv2.imwrite(jpg_file, img)
+else:
+    for pcd_file in glob.glob(source_directory + "*.pcd"):
+        cloud = pcl.load(pcd_file)
+        pt_ar = cloud.to_array()
+        x = pt_ar[:, 0]
+        y = pt_ar[:, 1]
+        z = pt_ar[:, 2]
+        avg_height = np.mean(z)
+        img = map_to_image(x, y, z, avg_height)
+        jpg_file = pcd_file.split('.pcd')[0] + ".jpg"
+        cv2.imwrite(jpg_file, img)
