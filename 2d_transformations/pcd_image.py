@@ -1,9 +1,10 @@
 import pcl
 import numpy as np
 import cv2
-import glob
+import sys
+import os
 
-source_directory = "../pointclouds_filtered/20.0_20.0_-0.5/"
+source_directory = "../training_data/"
 
 height = 160
 width = 160
@@ -43,12 +44,20 @@ def map_to_image(x, y, z, avgHeight):
     return img
 
 
-sub_directory = False
+if len(sys.argv) >= 2:
+    sub_directory = sys.argv[1]
+else:
+    print "Error"
+    sys.exit()
+
+
 
 if sub_directory:
-    for folder in glob.glob(source_directory):
-        for pcd_file in glob.glob(source_directory + folder + "*.pcd"):
-            cloud = pcl.load(pcd_file)
+    for folder in os.listdir(source_directory):
+        for pcd_file in os.listdir(source_directory + folder):
+            if not pcd_file.endswith('.pcd'):
+                continue
+            cloud = pcl.load(source_directory + folder + "/" + pcd_file)
             pt_ar = cloud.to_array()
             x = pt_ar[:, 0]
             y = pt_ar[:, 1]
@@ -56,10 +65,12 @@ if sub_directory:
             avg_height = np.mean(z)
             img = map_to_image(x, y, z, avg_height)
             jpg_file = pcd_file.split('.pcd')[0] + ".jpg"
-            cv2.imwrite(jpg_file, img)
+            cv2.imwrite(source_directory + folder + "/" + jpg_file, img)
 else:
-    for pcd_file in glob.glob(source_directory + "*.pcd"):
-        cloud = pcl.load(pcd_file)
+    for pcd_file in os.listdir(source_directory):
+        if not pcd_file.endswith('.pcd'):
+            continue
+        cloud = pcl.load(source_directory + pcd_file)
         pt_ar = cloud.to_array()
         x = pt_ar[:, 0]
         y = pt_ar[:, 1]
