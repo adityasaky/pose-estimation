@@ -4,7 +4,7 @@ import cv2
 import sys
 import os
 
-source_directory = "../training_data/"
+source_directory = "/home/ajay/input_2/"
 
 height = 160
 width = 160
