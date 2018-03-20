@@ -8,3 +8,5 @@ pointnet https://arxiv.org/abs/1612.00593
 deep-image-homography-estimation https://arxiv.org/abs/1606.03798
 harris-corner-detector http://www.bmva.org/bmvc/1988/avc-88-023.pdf
 shi-tomasi-corner-detector http://ieeexplore.ieee.org/document/323794/
+lippmann-neural-networks http://ieeexplore.ieee.org/abstract/document/1165576/
+hopfield-neural-networks http://ieeexplore.ieee.org/abstract/document/8118/
