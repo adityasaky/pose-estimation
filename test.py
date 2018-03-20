@@ -7,26 +7,24 @@ from loader import dat_loader
 
 train_path = 'dataset/train/'
 test_path = 'dataset/validation/'
+batch_size = 64
 
 
 def main():
     model = create_model()
 
-    base_lr = 0.005
+    base_lr = 0.001
 
     sgd = SGD(lr=base_lr, momentum=0.9)
     model.compile(optimizer=sgd, loss='mean_squared_error', metrics=['accuracy'])
 
     # model.summary()
 
-    loader = dat_loader(train_path)
-    #val_loader = dat_loader(test_path)
-
-    model.fit_generator(loader,
-                        epochs=3,
-                        validation_data=val_loader,
-                        validation_steps=9,
-                        steps_per_epoch=9,
+    model.fit_generator(dat_loader(train_path, batch_size),
+                        epochs=2,
+                        validation_data=None,
+                        use_multiprocessing = True,
+                        steps_per_epoch=270,
                         verbose=1,
                         shuffle=True)
 
