@@ -6,3 +6,5 @@ cnn-for-large-scale-image-recognition https://arxiv.org/abs/1409.1556v1
 evaluation-of-interest-point-detectors https://link.springer.com/article/10.1007/s11263-011-0431-5
 pointnet https://arxiv.org/abs/1612.00593
 deep-image-homography-estimation https://arxiv.org/abs/1606.03798
+harris-corner-detector http://www.bmva.org/bmvc/1988/avc-88-023.pdf
+shi-tomasi-corner-detector http://ieeexplore.ieee.org/document/323794/
