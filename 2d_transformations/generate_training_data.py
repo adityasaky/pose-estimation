@@ -81,7 +81,7 @@ def generate():
             transformation_result_array = np.array(np.matrix.transpose(transformation_result_matrix))
             transformation_result_image = create_image(transformation_result_array)
             all_transformation_results.append(transformation_result_image)
-            source_transformations_correspondence['truth_values'][transformation_key] = np.array(transformation)
+            source_transformations_correspondence['truth_values'][transformation_key] = transformation.flatten()
         source_transformations_correspondence['images']['i2'] = all_transformation_results
         np.savez_compressed(training_directory + source_name, source_transformations_correspondence)
 
