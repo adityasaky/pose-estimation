@@ -64,6 +64,7 @@ def generate():
     for pcd_file in os.listdir(source_directory):
         if not pcd_file.endswith('.pcd'):
             continue
+        get_transformations()
         source_name = pcd_file.split('.')[0]
         print "Reading " + source_name + "..."
         all_points = pcl.load(source_directory + pcd_file)
@@ -83,7 +84,7 @@ def generate():
             all_transformation_results.append(transformation_result_image)
             source_transformations_correspondence['truth_values'][transformation_key] = transformation.flatten()
         source_transformations_correspondence['images']['i2'] = all_transformation_results
-        np.savez_compressed(training_directory + source_name, source_transformations_correspondence)
+        np.savez_compressed(training_directory + source_name, data=source_transformations_correspondence)
 
 
 generate()
