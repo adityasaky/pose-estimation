@@ -3,6 +3,7 @@ pointclouds_filtered
 pointclouds/test
 pointclouds/voxel_filtered
 venv
+dataset
 training_data
 .idea
 *.pyc
