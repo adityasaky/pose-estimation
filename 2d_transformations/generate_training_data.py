@@ -80,7 +80,10 @@ def generate():
             transformation_result_image = cv2.cvtColor(create_image(transformation_result_array), cv2.COLOR_RGB2GRAY)
             transformed_images.append(transformation_result_image)
             ground_truth_values.append(transformation.flatten())
-        np.savez_compressed(training_directory + source_name, source_image=source_image, transformed_images=transformed_images, ground_truth_values=ground_truth_values)
+        np.savez_compressed(training_directory + source_name,
+                            source_image=source_image,
+                            transformed_images=transformed_images,
+                            ground_truth_values=ground_truth_values)
 
 
 generate()
