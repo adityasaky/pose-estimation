@@ -6,7 +6,8 @@ import cv2
 
 
 source_directory = "../pointclouds/"
-training_directory = "../dataset/"
+training_directory_direct = "../dataset/direct/"
+training_directory_canonical = "../dataset/canonical/"
 transformations_directory = "./pickle_files/"
 
 
@@ -68,22 +69,32 @@ def generate():
         print "Reading " + source_name + "..."
         all_points = pcl.load(source_directory + pcd_file)
         all_points_array = all_points.to_array()
-        source_image = [[list(cv2.cvtColor(create_image(all_points_array), cv2.COLOR_RGB2GRAY))] * 756]
+        source_image = cv2.cvtColor(create_image(all_points_array), cv2.COLOR_RGB2GRAY)
         all_points_matrix = np.matrix.transpose(np.matrix(all_points_array))
         transformed_images = list()
-        ground_truth_values = list()
+        ground_truth_values_direct = list()
+        ground_truth_values_canonical = list()
         for transformation_key in all_transformations:
             print "Applying " + transformation_key + "..."
             transformation = all_transformations[transformation_key]
             transformation_result_matrix = np.dot(transformation, all_points_matrix)
             transformation_result_array = np.array(np.matrix.transpose(transformation_result_matrix))
             transformation_result_image = cv2.cvtColor(create_image(transformation_result_array), cv2.COLOR_RGB2GRAY)
-            transformed_images.append(transformation_result_image)
-            ground_truth_values.append(transformation.flatten())
-        np.savez_compressed(training_directory + source_name,
-                            source_image=source_image,
-                            transformed_images=transformed_images,
-                            ground_truth_values=ground_truth_values)
+            result_image = np.reshape(np.concatenate((source_image, transformation_result_image)), (20, 20, 128))
+            transformed_images.append(result_image)
+            tx = transformation_key.split('_')[2]
+            ty = transformation_key.split('_')[3]
+            transformation_canonical = transformation.flatten()
+            transformation_canonical[2] = tx
+            transformation_canonical[5] = ty
+            ground_truth_values_direct.append(transformation.flatten())
+            ground_truth_values_canonical.append(transformation_canonical)
+        np.savez_compressed(training_directory_canonical + source_name,
+                            images=transformed_images,
+                            truth=ground_truth_values_canonical)
+        np.savez_compressed(training_directory_direct + source_name,
+                            images=transformed_images,
+                            truth=ground_truth_values_direct)
 
 
 generate()
