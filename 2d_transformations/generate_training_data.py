@@ -2,7 +2,7 @@ import os
 import pickle
 import numpy as np
 import pcl
-import sys
+import cv2
 
 
 source_directory = "../pointclouds/"
@@ -72,7 +72,7 @@ def generate():
         source_transformations_correspondence = dict()
         source_transformations_correspondence['images'] = dict()
         source_transformations_correspondence['truth_values'] = dict()
-        source_transformations_correspondence['images']['i1'] = create_image(all_points_array)
+        source_transformations_correspondence['images']['i1'] = cv2.cvtColor(create_image(all_points_array), cv2.COLOR_RGB2GRAY)
         all_points_matrix = np.matrix.transpose(np.matrix(all_points_array))
         all_transformation_results = list()
         for transformation_key in all_transformations:
@@ -80,7 +80,7 @@ def generate():
             transformation = all_transformations[transformation_key]
             transformation_result_matrix = np.dot(transformation, all_points_matrix)
             transformation_result_array = np.array(np.matrix.transpose(transformation_result_matrix))
-            transformation_result_image = create_image(transformation_result_array)
+            transformation_result_image = cv2.cvtColor(create_image(transformation_result_array), cv2.COLOR_RGB2GRAY)
             all_transformation_results.append(transformation_result_image)
             source_transformations_correspondence['truth_values'][transformation_key] = transformation.flatten()
         source_transformations_correspondence['images']['i2'] = all_transformation_results
