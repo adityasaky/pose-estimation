@@ -68,7 +68,7 @@ def generate():
         print "Reading " + source_name + "..."
         all_points = pcl.load(source_directory + pcd_file)
         all_points_array = all_points.to_array()
-        source_image = [cv2.cvtColor(create_image(all_points_array), cv2.COLOR_RGB2GRAY) * 756]
+        source_image = [[list(cv2.cvtColor(create_image(all_points_array), cv2.COLOR_RGB2GRAY))] * 756]
         all_points_matrix = np.matrix.transpose(np.matrix(all_points_array))
         transformed_images = list()
         ground_truth_values = list()
