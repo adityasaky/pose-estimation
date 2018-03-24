@@ -68,22 +68,19 @@ def generate():
         print "Reading " + source_name + "..."
         all_points = pcl.load(source_directory + pcd_file)
         all_points_array = all_points.to_array()
-        source_transformations_correspondence = dict()
-        source_transformations_correspondence['images'] = dict()
-        source_transformations_correspondence['truth_values'] = dict()
-        source_transformations_correspondence['images']['i1'] = cv2.cvtColor(create_image(all_points_array), cv2.COLOR_RGB2GRAY)
+        source_image = [cv2.cvtColor(create_image(all_points_array), cv2.COLOR_RGB2GRAY) * 756]
         all_points_matrix = np.matrix.transpose(np.matrix(all_points_array))
-        all_transformation_results = list()
+        transformed_images = list()
+        ground_truth_values = list()
         for transformation_key in all_transformations:
             print "Applying " + transformation_key + "..."
             transformation = all_transformations[transformation_key]
             transformation_result_matrix = np.dot(transformation, all_points_matrix)
             transformation_result_array = np.array(np.matrix.transpose(transformation_result_matrix))
             transformation_result_image = cv2.cvtColor(create_image(transformation_result_array), cv2.COLOR_RGB2GRAY)
-            all_transformation_results.append(transformation_result_image)
-            source_transformations_correspondence['truth_values'][transformation_key] = transformation.flatten()
-        source_transformations_correspondence['images']['i2'] = all_transformation_results
-        np.savez_compressed(training_directory + source_name, data=source_transformations_correspondence)
+            transformed_images.append(transformation_result_image)
+            ground_truth_values.append(transformation.flatten())
+        np.savez_compressed(training_directory + source_name, source_image=source_image, transformed_images=transformed_images, ground_truth_values=ground_truth_values)
 
 
 generate()
