@@ -21,9 +21,9 @@ def get_transformations():
     global all_transformations
     global transformations_directory
     for pkl_file in os.listdir(transformations_directory):
-         with open(transformations_directory + pkl_file, "r") as t:
-             transformation = pickle.load(t)
-             all_transformations[pkl_file.split('.')[0]] = transformation
+        with open(transformations_directory + pkl_file, "r") as t:
+            transformation = pickle.load(t)
+            all_transformations[pkl_file.split('.')[0]] = transformation
 
 
 def scale_x(x):
@@ -36,7 +36,7 @@ def scale_y(y):
     return height - 1 - int(height * (height_meters * 0.5 + y) / height_meters)
 
 
-def map_to_image(x, y, z):
+def map_to_image(x, y):
     global height, width
     global height_meters, width_meters
     image = np.zeros((height, width, 3), np.uint8)
@@ -53,8 +53,7 @@ def map_to_image(x, y, z):
 def create_image(pcd_array):
     x = pcd_array[:, 0]
     y = pcd_array[:, 1]
-    z = pcd_array[:, 2]
-    image = map_to_image(x, y, z)
+    image = map_to_image(x, y)
     return image
 
 
