@@ -70,6 +70,7 @@ def generate():
         all_points = pcl.load(source_directory + pcd_file)
         all_points_array = all_points.to_array()
         source_image = cv2.cvtColor(create_image(all_points_array), cv2.COLOR_RGB2GRAY)
+        source_image_reshaped = np.reshape(source_image, (20, 20, 64))
         all_points_matrix = np.matrix.transpose(np.matrix(all_points_array))
         transformed_images = list()
         ground_truth_values_direct = list()
@@ -80,7 +81,8 @@ def generate():
             transformation_result_matrix = np.dot(transformation, all_points_matrix)
             transformation_result_array = np.array(np.matrix.transpose(transformation_result_matrix))
             transformation_result_image = cv2.cvtColor(create_image(transformation_result_array), cv2.COLOR_RGB2GRAY)
-            result_image = np.reshape(np.concatenate((source_image, transformation_result_image)), (20, 20, 128))
+            transformation_result_image_reshaped = np.reshape(transformation_result_image, (20, 20, 64))
+            result_image = np.concatenate((source_image_reshaped, transformation_result_image_reshaped), axis=2)
             transformed_images.append(result_image)
             tx = transformation_key.split('_')[2]
             ty = transformation_key.split('_')[3]
