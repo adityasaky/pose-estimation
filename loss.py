@@ -1,8 +1,12 @@
-from keras import backend as k
+import pcl
+import tensorflow as tf
+import numpy as np
 
 
-def homography_loss(y_true, y_pred):
-    a = y_pred - y_true
-    print("SOMETHING LOSSY")
-    print(a)
-    return a
+def loss(source):
+    def homography_loss(y_true, y_pred):
+        source_pcd = pcl.load(source)
+        y_transformation_true = np.identity(3)
+        a = y_pred - y_true
+        return a
+    return homography_loss
