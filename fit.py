@@ -5,8 +5,8 @@ import numpy as np
 import os
 
 
-sample_path = 'dataset/canonical/1000.npz'
-sample_file = 'pointclouds/10.pcd'
+sample_path = 'dataset_rot_only/canonical/3100.npz'
+sample_file = 'pointclouds/3100.pcd'
 sample_dir = 'dataset/canonical/'
 
 
@@ -16,7 +16,9 @@ def main():
     base_lr = 0.005
 
     rms = RMSprop(lr=base_lr, rho=0.4, epsilon=None, decay=0.0)
+    print("Calling compile")
     model.compile(optimizer=rms, loss=loss(sample_file),  metrics=['acc'])
+    print("Compile done")
 
     # model.summary()
 
@@ -36,11 +38,11 @@ def main():
     archive = np.load(sample_path)
     x = archive['images']
     y = archive['truth']
-
+    print("Calling fit")
     model.fit(x=[x],
               y=[y],
               batch_size=None,
-              epochs=5,
+              epochs=25,
               verbose=2,
               validation_data=None,
               shuffle=False)
