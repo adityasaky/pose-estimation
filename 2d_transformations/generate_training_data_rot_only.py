@@ -11,10 +11,10 @@ training_directory_canonical = "../dataset_rot_only/canonical/"
 transformations_directory = "./pickle_files_rot_only/"
 
 
-height = 160
-width = 160
-height_meters = 80
-width_meters = 60
+height = 128
+width = 128
+height_meters = 64
+width_meters = 64
 all_transformations = dict()
 
 
