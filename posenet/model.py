@@ -25,10 +25,10 @@ def create_model():
     x = Conv2D(128, 3, padding='same', strides=(1, 1), activation='relu', name='conv9')(x)
     x = MaxPooling2D(strides=(2, 2), name='pool4')(x)
 
-    x = Conv2D(128, 3, padding='same', strides=(1, 1), activation='relu', name='conv10')(x)
+    '''x = Conv2D(128, 3, padding='same', strides=(1, 1), activation='relu', name='conv10')(x)
     x = Conv2D(128, 3, padding='same', strides=(1, 1), activation='relu', name='conv11')(x)
     x = Conv2D(128, 3, padding='same', strides=(1, 1), activation='relu', name='conv12')(x)
-    x = MaxPooling2D(strides=(2, 2), name='pool5')(x)
+    x = MaxPooling2D(strides=(2, 2), name='pool5')(x)'''
 
     x = Flatten()(x)
     x = Dense(128, activation='relu', name='fc')(x)
