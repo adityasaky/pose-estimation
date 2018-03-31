@@ -1,11 +1,12 @@
 from posenet.model import create_model
 from keras.optimizers import RMSprop
-from loss import homography_loss
+from loss import loss
 import numpy as np
 import os
 
 
 sample_path = 'dataset/canonical/1000.npz'
+sample_file = 'pointclouds/10.pcd'
 sample_dir = 'dataset/canonical/'
 
 
@@ -15,7 +16,7 @@ def main():
     base_lr = 0.005
 
     rms = RMSprop(lr=base_lr, rho=0.4, epsilon=None, decay=0.0)
-    model.compile(optimizer=rms, loss=homography_loss,  metrics=['acc'])
+    model.compile(optimizer=rms, loss=loss(sample_file),  metrics=['acc'])
 
     # model.summary()
 
