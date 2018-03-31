@@ -1,40 +1,31 @@
-#!/usr/bin/python
-
-from keras.layers import Input, Reshape, Conv2D, MaxPooling2D, Flatten, Dense
-from keras.layers import concatenate
-from keras.models import Model
+from keras.models import Sequential
+from keras.layers import Conv2D, Dense, MaxPooling2D, InputLayer, Flatten
 
 
 def create_model():
-    main_input = Input(shape=(20, 20, 128), name='main_input')
+    model = Sequential()
+    model.add(InputLayer((160, 160, 2), name='input_1'))
 
-    x = Conv2D(128, 3, padding='same', strides=(1, 1), activation='relu', name='conv1')(main_input)
-    x = MaxPooling2D(strides=(2, 2), name='pool1')(x)
+    model.add(Conv2D(64, 3, padding='same', activation='relu', name='conv_1'))
+    model.add(Conv2D(64, 3, padding='same', activation='relu', name='conv_2'))
 
-    x = Conv2D(128, 3, padding='same', strides=(1, 1), activation='relu', name='conv2')(x)
-    x = Conv2D(128, 3, padding='same', strides=(1, 1), activation='relu', name='conv3')(x)
-    x = MaxPooling2D(strides=(2, 2), name='pool2')(x)
+    model.add(MaxPooling2D(strides=(2, 2), name='max_pooling2d_1'))
 
-    x = Conv2D(128, 3, padding='same', strides=(1, 1), activation='relu', name='conv4')(x)
-    x = Conv2D(128, 3, padding='same', strides=(1, 1), activation='relu', name='conv5')(x)
-    x = Conv2D(128, 3, padding='same', strides=(1, 1), activation='relu', name='conv6')(x)
-    x = MaxPooling2D(strides=(2, 2), name='pool3')(x)
+    model.add(Conv2D(64, 3, padding='same', activation='relu', name='conv_3'))
+    model.add(Conv2D(64, 3, padding='same', activation='relu', name='conv_4'))
 
-    x = Conv2D(128, 3, padding='same', strides=(1, 1), activation='relu', name='conv7')(x)
-    x = Conv2D(128, 3, padding='same', strides=(1, 1), activation='relu', name='conv8')(x)
-    x = Conv2D(128, 3, padding='same', strides=(1, 1), activation='relu', name='conv9')(x)
-    x = MaxPooling2D(strides=(2, 2), name='pool4')(x)
+    model.add(MaxPooling2D(strides=(2, 2), name='max_pooling2d_2'))
 
-    '''x = Conv2D(128, 3, padding='same', strides=(1, 1), activation='relu', name='conv10')(x)
-    x = Conv2D(128, 3, padding='same', strides=(1, 1), activation='relu', name='conv11')(x)
-    x = Conv2D(128, 3, padding='same', strides=(1, 1), activation='relu', name='conv12')(x)
-    x = MaxPooling2D(strides=(2, 2), name='pool5')(x)'''
+    model.add(Conv2D(128, 3, padding='same', activation='relu', name='conv_5'))
+    model.add(Conv2D(128, 3, padding='same', activation='relu', name='conv_6'))
 
-    x = Flatten()(x)
-    x = Dense(128, activation='relu', name='fc')(x)
-    main_output = Dense(9, activation='relu', name='main_output')(x)
+    model.add(MaxPooling2D(strides=(2, 2), name='max_pooling2d_3'))
 
-    model = Model(inputs=[main_input], outputs=[main_output])
-    print(model.summary())
+    model.add(Conv2D(128, 3, padding='same', activation='relu', name='conv_7'))
+    model.add(Conv2D(128, 3, padding='same', activation='relu', name='conv_8'))
+
+    model.add(Flatten())
+    model.add(Dense(1024, activation='relu', name='dense_1'))
+    model.add(Dense(9, activation='relu', name='dense_2'))
 
     return model
