@@ -5,11 +5,6 @@ import numpy as np
 import os
 
 
-sample_path = 'dataset_rot_only/canonical/3100.npz'
-sample_file = 'pointclouds/3100.pcd'
-sample_dir = 'dataset/canonical/'
-
-
 def main():
     model = create_model()
 
@@ -19,8 +14,6 @@ def main():
     print("Calling compile")
     model.compile(optimizer=rms, loss=loss(sample_file),  metrics=['acc'])
     print("Compile done")
-
-    # model.summary()
 
     x_train = list()
     y_train = list()
