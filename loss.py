@@ -1,6 +1,14 @@
 import pcl
-import tensorflow as tf
+from keras import backend as K
 import numpy as np
+import tensorflow as tf
+
+
+def loss_test(y_true, y_pred):
+
+    with open('temp', 'a') as f:
+        f.write(str(K.abs(y_pred)))
+    return y_pred - y_true
 
 
 def loss(source):
