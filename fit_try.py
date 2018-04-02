@@ -30,13 +30,13 @@ def main():
             x_train.append(f['images'][i])
             y_train.append(f['truth'][i])
 
-    for npz_file in os.listdir('dataset_eval/all_transformations/'):
+    '''for npz_file in os.listdir('dataset_eval/all_transformations/'):
         f = np.load('dataset_eval/all_transformations/' + npz_file)
         for i in range(len(f['images'])):
             print(npz_file)
             print(i)
             x_eval.append(f['images'][i])
-            y_eval.append(f['truth'][i])
+            y_eval.append(f['truth'][i])'''
 
     print(len(x_train))
     x_train = np.array(x_train)
@@ -59,7 +59,9 @@ def main():
               [y_train],
               batch_size=16,
               epochs=2,
-              validation_data=([x_eval], [y_eval]),
+              validation_split=0.1,
+              #validation_data=([x_eval], [y_eval]),
+              validation_data=None,
               shuffle=False,
               callbacks=[history])
 
