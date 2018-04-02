@@ -20,6 +20,7 @@ def main():
     x_train = list()
     y_train = list()
     x_eval = list()
+    y_eval = list()
 
     for npz_file in os.listdir('dataset_train/rot_only/'):
         f = np.load('dataset_train/rot_only/' + npz_file)
@@ -57,7 +58,7 @@ def main():
     model.fit([x_train],
               [y_train],
               batch_size=16,
-              epochs=5,
+              epochs=2,
               validation_data=([x_eval], [y_eval]),
               shuffle=False,
               callbacks=[history])
