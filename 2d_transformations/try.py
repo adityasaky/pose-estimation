@@ -44,20 +44,20 @@ data_string = x_string + '; ' + y_string + '; ' + w_string
 data = np.matrix(data_string)
 
 net_transform = net_transform.dot(rotate(theta))
-# print "After rotation, transformation matrix is:"
-# print net_transform
+# print("After rotation, transformation matrix is:")
+# print(net_transform)
 
 net_transform = net_transform.dot(translate(tx, ty))
-print "Transformation matrix is:"
-print net_transform
+print("Transformation matrix is:")
+print(net_transform)
 
 net_transform = np.identity(3)
 net_transform = net_transform.dot(rotate(-theta))
 net_transform = net_transform.dot(translate(-tx, -ty))
-print "Transformation matrix is:"
-print net_transform
+print("Transformation matrix is:")
+print(net_transform)
 
 '''
-print "Resultant matrix is:"
-print net_transform.dot(data)
+print("Resultant matrix is:")
+print(net_transform.dot(data))
 '''
