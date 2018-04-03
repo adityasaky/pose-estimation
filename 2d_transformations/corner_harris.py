@@ -18,7 +18,7 @@ for row in corners1:
     for col in row:
         if col != 0.0:
             count += 1
-print count
+print(count)
 
 img2 = cv2.imread(source2, 0)
 img2 = np.float32(img2)

@@ -37,9 +37,9 @@ for source_file in os.listdir(directory):
 source1 = "../pointclouds/2030.jpg"
 source = "2030.jpg"
 img1 = cv2.imread(source1, 0)
-#print type(img1)
+#print(type(img1))
 img1 = np.float32(img1)
-#print type(img1)
+#print(type(img1))
 corners1 = cv2.goodFeaturesToTrack(img1,300,0.01,2,None,3,0,0.04 )
 corners1 = np.int0(corners1)
 

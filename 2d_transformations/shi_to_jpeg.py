@@ -59,11 +59,12 @@ def scaley(y) :
 # all points outside this range marked out of image
 def XYToImage(x, y, z, avgHeight) :
     global height, width
-    
+
+
     img = np.zeros((height, width, 3), np.uint8)
-    for i in range(len(x)) :
-        if (abs(z[i]) >= avgHeight + 0.5) :
-            if ((abs(x[i]) <= widthMeters * 0.5) & (abs(y[i]) <= heightMeters * 0.5)) :
+    for i in range(len(x)):
+        if abs(z[i]) >= avgHeight + 0.5:
+            if (abs(x[i]) <= widthMeters * 0.5) & (abs(y[i]) <= heightMeters * 0.5):
                 xs = scalex(x[i])
                 ys = scaley(y[i])
                 img[ys, xs,  0] = 255
@@ -73,30 +74,26 @@ def XYToImage(x, y, z, avgHeight) :
     return img
 
 
-
-
-
-
 corners1 = cv2.goodFeaturesToTrack(img4,300,0.01,10,None,3,0,0.04 )
 #corners1 = np.int0(corners1)
 rows = corners1.shape[0]
 a = np.empty( shape=(rows,3))
 l = []
 for element in corners1.flat:
-	l.append(element)
+    l.append(element)
 
 for x in xrange(0,rows):
-	a[x][0] = l[i]
-	i = i+1
-	a[x][1] = l[i]
-	i = i+1
-	a[x][2] = 0
+    a[x][0] = l[i]
+    i = i+1
+    a[x][1] = l[i]
+    i = i+1
+    a[x][2] = 0
 	
 x = a[:, 0]
-print "value is" + str(x)
+print("value is" + str(x))
 y = a[:, 1]        
 z = a[:, 2]
-print "value is " + str(z)
+print("value is " + str(z))
 avgHeight = np.mean(z)
 img = XYToImage(x, y, z, avgHeight)
 jpgFile = source.split('.jpg')[0] + ".jpg"

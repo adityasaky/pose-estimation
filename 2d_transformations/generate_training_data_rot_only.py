@@ -66,7 +66,7 @@ def generate():
             continue
         get_transformations()
         source_name = pcd_file.split('.')[0]
-        print "Reading " + source_name + "..."
+        print("Reading " + source_name + "...")
         all_points = pcl.load(source_directory + pcd_file)
         all_points_array = all_points.to_array()
         source_image = cv2.cvtColor(create_image(all_points_array), cv2.COLOR_RGB2GRAY)
@@ -75,7 +75,7 @@ def generate():
         ground_truth_values_direct = list()
         ground_truth_values_canonical = list()
         for transformation_key in all_transformations:
-            print "Applying " + transformation_key + "..."
+            print("Applying " + transformation_key + "...")
             transformation = all_transformations[transformation_key]
             transformation_result_matrix = np.dot(transformation, all_points_matrix)
             transformation_result_array = np.array(np.matrix.transpose(transformation_result_matrix))

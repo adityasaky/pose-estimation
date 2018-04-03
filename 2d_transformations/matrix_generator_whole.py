@@ -23,7 +23,6 @@ def translate(distance_x, distance_y):
     return trn_mat
 
 for i in range(0, 61, 3):
-while i < 61.0:
     for j in range(0, 11, 2):
         for k in range(0, 11, 2):
             rotation_matrix = rotate(i)

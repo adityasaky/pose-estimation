@@ -15,5 +15,5 @@ def scaley(y):
 x = 0
 y = -20
 
-print "x -> " + str(scalex(x))
-print "y -> " + str(scaley(y))
+print("x -> " + str(scalex(x)))
+print("y -> " + str(scaley(y)))

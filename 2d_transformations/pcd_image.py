@@ -47,7 +47,7 @@ def map_to_image(x, y, z, avgHeight):
 if len(sys.argv) >= 2:
     sub_directory = sys.argv[1]
 else:
-    print "Error"
+    print("Error")
     sys.exit()
 
 
@@ -65,7 +65,7 @@ if sub_directory:
             avg_height = np.mean(z)
             img = map_to_image(x, y, z, avg_height)
             jpg_file = pcd_file.split('.pcd')[0] + ".jpg"
-            print "Converting " + pcd_file + "..."
+            print("Converting " + pcd_file + "...")
             cv2.imwrite(source_directory + folder + "/" + jpg_file, img)
 else:
     for pcd_file in os.listdir(source_directory):
@@ -79,5 +79,5 @@ else:
         avg_height = np.mean(z)
         img = map_to_image(x, y, z, avg_height)
         jpg_file = pcd_file.split('.pcd')[0] + ".jpg"
-        print "Converting " + pcd_file + "..."
+        print("Converting " + pcd_file + "...")
         cv2.imwrite(jpg_file, img)
