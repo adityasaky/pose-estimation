@@ -13,7 +13,7 @@ widthMeters = 60
 
 
 directory = "../pointclouds/"
-target_directory = "../pointclouds/test/"
+target_directory = "../pointclouds/corner_points/"
 for source_file in os.listdir(directory):
     if source_file.endswith('.jpg'):
         img = cv2.imread(directory + source_file, 0)
@@ -31,7 +31,9 @@ for source_file in os.listdir(directory):
         all_points = np.array(all_points_array)
         pcd_file = pcl.PointCloud()
         pcd_file.from_array(np.float32(all_points))
-        pcd_file.to_file(target_directory + source_file.split('.')[0] + '.pcd')
+        target_name = target_directory + source_file.split('.')[0] + '.pcd'
+        pcd_file.to_file(target_name.encode('ASCII'))
+
 
 '''
 source1 = "../pointclouds/2030.jpg"

@@ -5,7 +5,7 @@ import pcl
 import cv2
 
 
-source_directory = "../pointclouds/"
+source_directory = "../pointclouds/corner_points/"
 training_directory_direct = "../dataset_rot_only/direct/"
 training_directory_canonical = "../dataset_rot_only/canonical/"
 transformations_directory = "./pickle_files_rot_only/"
@@ -67,7 +67,8 @@ def generate():
         get_transformations()
         source_name = pcd_file.split('.')[0]
         print("Reading " + source_name + "...")
-        all_points = pcl.load(source_directory + pcd_file)
+        target = source_directory + pcd_file
+        all_points = pcl.load(target.encode('ASCII'))
         all_points_array = all_points.to_array()
         source_image = cv2.cvtColor(create_image(all_points_array), cv2.COLOR_RGB2GRAY)
         all_points_matrix = np.matrix.transpose(np.matrix(all_points_array))
