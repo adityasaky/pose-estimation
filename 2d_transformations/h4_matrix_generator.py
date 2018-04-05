@@ -3,8 +3,8 @@ import pickle
 import os
 
 
-pickle_directory = "./pickle_files/"
-h4_pickles_directory = "./h4_pickle_files/"
+pickle_directory = "./pickle_files_rot_only/"
+h4_pickles_directory = "./h4_pickle_files_rot_only/"
 all_transformations = dict()
 
 def get_transformations():
@@ -12,8 +12,8 @@ def get_transformations():
     global pickle_directory
     for pkl_file in os.listdir(pickle_directory):
         with open(pickle_directory + pkl_file, "rb") as t:
-            transformation = pickle.load(t, encoding='latin1')
-            all_transformations[pkl_file.split('.')[0]] = transformation
+            transformation = pickle.load(t)
+            all_transformations[pkl_file.split('-')[0]] = transformation
 
 
 get_transformations()
@@ -30,7 +30,7 @@ for transformation_label in all_transformations:
     delta_p2 = p2 - p2_prime
     delta_p3 = p3 - p3_prime
     delta_p4 = p4 - p4_prime
-    h4_matrix = np.zeros((4, 4))
+    h4_matrix = np.zeros((4, 2))
     h4_matrix[0, 0] = delta_p1[0]
     h4_matrix[0, 1] = delta_p1[1]
     h4_matrix[1, 0] = delta_p2[0]
@@ -40,5 +40,5 @@ for transformation_label in all_transformations:
     h4_matrix[3, 0] = delta_p4[0]
     h4_matrix[3, 1] = delta_p4[1]
     print("Saving " + transformation_label + "...")
-    with open(h4_pickles_directory + transformation_label, "wb+") as f:
+    with open(h4_pickles_directory + transformation_label + "-.pkl", "wb+") as f:
         pickle.dump(h4_matrix, f)
