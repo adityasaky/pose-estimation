@@ -3,7 +3,6 @@ from keras.callbacks import History
 from keras.optimizers import RMSprop, Adadelta
 import keras.backend as K
 from tensorflow.python import debug as tf_debug
-from loss import loss_test
 import numpy as np
 import os
 
