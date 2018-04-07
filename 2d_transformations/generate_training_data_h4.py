@@ -10,7 +10,7 @@ x_limit = 64.0
 y_limit = 64.0
 z_limit = -1.0
 source_directory = "../pointclouds_h4/"
-target_directory = "../dataset_h4_full/"
+target_directory = "../dataset_h4_full_test/"
 h4_pickle_directory = "h4_pickle_files/"
 pickle_directory = "pickle_files/"
 height = 128
@@ -81,6 +81,7 @@ def generate():
         if not os.path.exists(target_directory):
             os.makedirs(target_directory)
         all_points_array = all_points.to_array()
+        len_source = len(all_points_array)
         source_image = cv2.cvtColor(create_image(all_points_array), cv2.COLOR_RGB2GRAY)
         all_points_matrix = np.transpose(np.matrix(all_points_array))
         transformed_images = list()
@@ -95,6 +96,9 @@ def generate():
                 if 0.0 <= point[0] <= 128.0 and 0.0 <= point[1] <= 128.0:
                     filtered_transformation_result_array.append(point)
             filtered_transformation_result_array = np.array(filtered_transformation_result_array)
+            len_filtered = len(filtered_transformation_result_array)
+            if float(len_filtered) / float(len_source) < 0.6:
+                continue
             transformation_result_image = cv2.cvtColor(create_image(filtered_transformation_result_array), cv2.COLOR_RGB2GRAY)
             result_image = np.dstack((source_image, transformation_result_image))
             transformed_images.append(result_image)
