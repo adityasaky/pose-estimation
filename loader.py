@@ -12,18 +12,12 @@ def dat_loader(path, batch_size):
                 print(file)
                 file_path = path + file
                 archive = np.load(file_path)
-                img = archive['images']
+                images = archive['images']
                 truth = archive['truth']
-                del archive
-                # batch_i1 = img[0]
-                # batch_i2 = img[1]
-                # batch_truth = truth
                 num_batches = len(truth)//batch_size
-                i1 = np.array_split(img[0], num_batches)
-                i2 = np.array_split(img[1], num_batches)
-                truth = np.array_split(truth, num_batches)
-                while truth:
-                    batch_i1 = i1.pop()
-                    batch_i2 = i2.pop()
-                    batch_truth = truth.pop()
-                    yield [batch_i1, batch_i2], batch_truth
+                image_batch = np.array_split(images, num_batches)
+                truth_batch = np.array_split(truth, num_batches)
+                while truth_batch:
+                    single_image = image_batch.pop()
+                    single_truth = truth_batch.pop()
+                    yield [single_image], [single_truth]
