@@ -10,9 +10,9 @@ x_limit = 64.0
 y_limit = 64.0
 z_limit = -1.0
 source_directory = "../pointclouds_h4/"
-target_directory = "../dataset_h4/"
-h4_pickle_directory = "h4_pickle_files_rot_only/"
-pickle_directory = "pickle_files_rot_only/"
+target_directory = "../dataset_h4_full/"
+h4_pickle_directory = "h4_pickle_files/"
+pickle_directory = "pickle_files/"
 height = 128
 width = 128
 
