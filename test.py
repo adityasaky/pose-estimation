@@ -1,32 +1,35 @@
-from posenet.model import create_model
-from keras.optimizers import SGD
-import os
-import numpy as np
+from posenet.model_h4 import create_model
+from keras.callbacks import History
+from keras.optimizers import RMSprop, Adadelta
+import keras.backend as K
 from loader import dat_loader
-
-
-train_path = 'dataset/train/'
-test_path = 'dataset/validation/'
-batch_size = 64
+from loss import loss_test
+import numpy as np
+import os
 
 
 def main():
+    
     model = create_model()
+    
+    base_lr = 0.005
 
-    base_lr = 0.001
 
-    sgd = SGD(lr=base_lr, momentum=0.9)
-    model.compile(optimizer=sgd, loss='mean_squared_error', metrics=['accuracy'])
 
-    # model.summary()
+    ada = Adadelta(lr=base_lr, rho=0.95, epsilon=None, decay=0.0)
+    print("Calling compile")
+    model.compile(optimizer=ada, loss='mean_squared_error',  metrics=['acc'])
+    print("Compile done")
 
-    model.fit_generator(dat_loader(train_path, batch_size),
-                        epochs=2,
-                        validation_data=None,
-                        use_multiprocessing = True,
-                        steps_per_epoch=270,
-                        verbose=1,
-                        shuffle=True)
+    print("Calling fit")
+    model.fit_generator(dat_loader('dataset_train/h4/', 21),
+                                    epochs=3,
+                                    validation_data=None,
+                                    steps_per_epoch=72,
+                                    shuffle=False)
+
+    model.save('/home/ajay/test/sample_trained_models/shi_tomasi/my_model.h5')
+    model.save_weights('/home/ajay/sample_trained_models/shi_tomasi/my_model_weights.h5')
 
 
 if __name__ == main():
