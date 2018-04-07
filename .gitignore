@@ -1,10 +1,6 @@
 .DS_Store
 pointclouds_filtered
-pointclouds/test
-pointclouds/voxel_filtered
 venv
-training_data
-*wrong_order
 .idea
 *.pyc
 *.jpg
