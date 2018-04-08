@@ -37,8 +37,8 @@ def main():
             sample = next(iter_obj)
             # print(len(sample[0]))
             # print(len(sample[1]))
-            i1.append(sample[0])
-            i2.append(sample[1])
+            i1.append(sample[0][0])
+            i2.append(sample[1][0])
             i += 1
         i1 = np.array(i1)
         i2 = np.array(i2)
