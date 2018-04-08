@@ -3,7 +3,7 @@ import os
 
 
 source_directory = "../dataset_h4_full_test/"
-target_directory = "../dataset_h4_full_test_refiled"
+target_directory = "../dataset_h4_full_test_refiled/"
 count_files = 39
 count_samples = 4943
 
