@@ -1,8 +1,6 @@
 from posenet.model_h4 import create_model
-from keras.callbacks import History
-from keras.optimizers import RMSprop, Adadelta
-import keras.backend as K
-from tensorflow.python import debug as tf_debug
+from keras.callbacks import History, ModelCheckpoint
+from keras.optimizers import Adadelta
 import numpy as np
 import os
 
@@ -51,15 +49,15 @@ def main():
         print("Input shape: " + str(layer.input_shape) + ". Output shape: " + str(layer.output_shape))
 
     print("Calling fit")
+    checkpointer = ModelCheckpoint(filepath=model_checkpoint, monitor='loss', save_weights_only=False, mode='auto')
     model.fit([x_train],
               [y_train],
               batch_size=16,
               epochs=10,
               validation_split=0.1,
-              #validation_data=([x_eval], [y_eval]),
               validation_data=None,
               shuffle=False,
-              callbacks=[history])
+              callbacks=[history, checkpointer])
 
 #    predicted = model.predict([x_eval],
 #                  batch_size=22)
