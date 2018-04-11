@@ -8,7 +8,7 @@ def predict():
     file_path = ''
     model = load_model(model_path)
     archive = np.load(file_path)
-    test_files = archive['images']
+    test_images = archive['images']
     prediction = model.predict([test_images])
     print(prediction)
 
