@@ -21,7 +21,7 @@ def main():
     with open(result_path + "summary", "w+") as summary:
         summary.write("Time: " + timestamp + "\n")
         summary.write("No of epochs: " + str(epochs) + "\n")
-        summary.write("No of samples: " + str(batch_size * steps_per_epoch) "\n")
+        summary.write("No of samples: " + str(batch_size * steps_per_epoch) + "\n")
         summary.write("Batch size: " + str(batch_size) + "\n")
         summary.write("Steps per epoch: " + str(steps_per_epoch) + "\n")
     ada = Adadelta(lr=base_lr, rho=0.95, epsilon=None, decay=0.0)
