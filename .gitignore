@@ -3,4 +3,3 @@ pointclouds_filtered
 venv
 .idea
 *.pyc
-*.jpg
