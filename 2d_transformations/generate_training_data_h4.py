@@ -6,15 +6,15 @@ import pickle
 import sys
 
 
-x_limit = 64.0
-y_limit = 64.0
+x_limit = 32.0
+y_limit = 32.0
 z_limit = -1.0
-source_directory = "../pointclouds_h4/"
-target_directory = "../dataset_h4_full_test/"
-h4_pickle_directory = "h4_pickle_files/"
-pickle_directory = "pickle_files/"
-height = 128
-width = 128
+source_directory = "../pointclouds_h4_test_32/"
+target_directory = "../dataset_h4_reduced_test_32/"
+h4_pickle_directory = "h4_pickle_files_reduced_64/"
+pickle_directory = "pickle_files_reduced/"
+height = 64
+width = 64
 
 height_meters = 64
 width_meters = 64
@@ -55,12 +55,11 @@ def map_to_image(x, y):
     global height_meters, width_meters
     image = np.zeros((height, width, 3), np.uint8)
     for i in range(len(x)):
-        if (abs(x[i]) <= width_meters * 0.5) & (abs(y[i]) <= height_meters * 0.5):
-            xs = scale_x(x[i])
-            ys = scale_y(y[i])
-            image[ys, xs, 0] = 255
-            image[ys, xs, 1] = 255
-            image[ys, xs, 2] = 255
+        xs = int(x[i])
+        ys = height - 1 - int(y[i])
+        image[ys, xs, 0] = 255
+        image[ys, xs, 1] = 255
+        image[ys, xs, 2] = 255
     return image
 
 
@@ -93,7 +92,7 @@ def generate():
             transformation_result_array = np.array(transformation_result_matrix)
             filtered_transformation_result_array = list()
             for point in transformation_result_array:
-                if 0.0 <= point[0] <= 128.0 and 0.0 <= point[1] <= 128.0:
+                if 0.0 <= point[0] <= 64.0 and 0.0 <= point[1] <= 64.0:
                     filtered_transformation_result_array.append(point)
             filtered_transformation_result_array = np.array(filtered_transformation_result_array)
             len_filtered = len(filtered_transformation_result_array)
