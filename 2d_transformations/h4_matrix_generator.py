@@ -3,8 +3,8 @@ import pickle
 import os
 
 
-pickle_directory = "./pickle_files/"
-h4_pickles_directory = "./h4_pickle_files/"
+pickle_directory = "./pickle_files_reduced/"
+h4_pickles_directory = "./h4_pickle_files_reduced_64/"
 all_transformations = dict()
 
 def get_transformations():
@@ -18,9 +18,9 @@ def get_transformations():
 
 get_transformations()
 p1 = np.array((0, 0, 1))
-p2 = np.array((0, 128, 1))
-p3 = np.array((128, 128, 1))
-p4 = np.array((128, 0, 1))
+p2 = np.array((0, 64, 1))
+p3 = np.array((64, 64, 1))
+p4 = np.array((64, 0, 1))
 for transformation_label in all_transformations:
     p1_prime = np.dot(all_transformations[transformation_label], p1)
     p2_prime = np.dot(all_transformations[transformation_label], p2)
