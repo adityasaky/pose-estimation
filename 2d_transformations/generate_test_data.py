@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import os
 import pcl
 import pickle
 
@@ -68,13 +69,11 @@ def create_image(pcd_array):
     return map_to_image(x, y)
 
 
-source_pointcloud_file = "/home/saky/tmp/test_data_extra/1265.pcd"
-transformation_directory = "./pickle_files_half/"
+source_pointcloud_file = "/home/saky/tmp/test_data_extra/1371.pcd"
+transformation_directory = "./pickle_files_reduced/"
 transformation_pickle = "tm_3.0_2_4-.pkl"
-h4_directory = "./h4_pickle_files_half/"
-target = "/home/saky/tmp/test_npz/file.npz"
-transformation = pickle.load(open(transformation_directory + transformation_pickle, "r"))
-h4_transformation = pickle.load(open(h4_directory + transformation_pickle, "r"))
+h4_directory = "./h4_pickle_files_reduced/"
+target = "/home/saky/tmp/test_npz/"
 source_pointcloud = pcl.load(source_pointcloud_file)
 source_pointcloud_array = source_pointcloud.to_array()
 x = source_pointcloud_array[:, 0]
@@ -83,16 +82,23 @@ z = source_pointcloud_array[:, 2]
 source_pointcloud_positive_array = move_to_positive(x, y, z)
 source_image = cv2.cvtColor(create_image(source_pointcloud_array), cv2.COLOR_RGB2GRAY)
 source_pointcloud_matrix = np.transpose(np.matrix(source_pointcloud_positive_array))
-result_pointcloud_matrix = np.transpose(np.dot(transformation, source_pointcloud_matrix))
-result_pointcloud_array = np.array(result_pointcloud_matrix)
-filtered_points_array = list()
-for point in result_pointcloud_array:
-    if 0.0 <= point[0] <= 128.0 and 0.0 <= point[1] <= 128.0:
-        filtered_points_array.append(point)
-filtered_points_array = np.array(filtered_points_array)
-transformation_result_image = cv2.cvtColor(create_image(filtered_points_array), cv2.COLOR_RGB2GRAY)
-resultant_image = np.dstack((source_image, transformation_result_image))
-ground_truth = h4_transformation.flatten()
-np.savez_compressed(target,
-                    images=[resultant_image],
-                    truth=[ground_truth])
+all_images = list()
+all_truth = list()
+for transformation_file in os.listdir(transformation_directory):
+    transformation = pickle.load(open(transformation_directory + transformation_file, "r"))
+    h4_transformation = pickle.load(open(h4_directory + transformation_file, "r"))
+    result_pointcloud_matrix = np.transpose(np.dot(transformation, source_pointcloud_matrix))
+    result_pointcloud_array = np.array(result_pointcloud_matrix)
+    filtered_points_array = list()
+    for point in result_pointcloud_array:
+        if 0.0 <= point[0] <= 128.0 and 0.0 <= point[1] <= 128.0:
+            filtered_points_array.append(point)
+    filtered_points_array = np.array(filtered_points_array)
+    transformation_result_image = cv2.cvtColor(create_image(filtered_points_array), cv2.COLOR_RGB2GRAY)
+    resultant_image = np.dstack((source_image, transformation_result_image))
+    all_images.append(resultant_image)
+    ground_truth = h4_transformation.flatten()
+    all_truth.append(ground_truth)
+np.savez_compressed(target + "1371",
+                    images=all_images,
+                    truth=all_truth)
