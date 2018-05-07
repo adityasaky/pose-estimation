@@ -6,19 +6,12 @@ import pickle
 import sys
 
 
-x_limit = 32.0
-y_limit = 32.0
-z_limit = -1.0
 source_directory = "../pointclouds_h4_test_32/"
 target_directory = "../dataset_h4_reduced_test_32/"
 h4_pickle_directory = "h4_pickle_files_reduced_64/"
 pickle_directory = "pickle_files_reduced/"
 height = 64
 width = 64
-
-height_meters = 64
-width_meters = 64
-
 all_transformations_h4 = dict()
 all_transformations = dict()
 
@@ -38,21 +31,8 @@ def get_transformations():
             all_transformations_h4[pkl_file.split('.')[0]] = transformation
 
 
-def scale_x(x):
-    global width_meters, width
-    xs = int(width * (width_meters * 0.5 + x) / width_meters)
-    return xs
-
-
-def scale_y(y):
-    global height_meters, height
-    ys = int(height * (height_meters * 0.5 + y) / height_meters)
-    return height - 1 - ys
-
-
 def map_to_image(x, y):
     global height, width
-    global height_meters, width_meters
     image = np.zeros((height, width, 3), np.uint8)
     for i in range(len(x)):
         xs = int(x[i])
