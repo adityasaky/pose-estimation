@@ -6,7 +6,7 @@ def computeHomographyFromH4P(H4p, img_dims):
 
     ps = np.array([[0,0],[0,img_dims[1]], [img_dims[0],img_dims[1]],[img_dims[0],0]])
 
-    qs = ps + H4p
+    qs = ps - H4p
 
 
 
