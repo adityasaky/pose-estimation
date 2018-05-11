@@ -6,45 +6,26 @@ import pickle
 
 
 def computeHomographyFromH4P(H4p, img_dims):
-
     ps = np.array([[0,0],[0,img_dims[1]], [img_dims[0],img_dims[1]],[img_dims[0],0]])
-
     qs = ps - H4p
-
-
-
     P = np.zeros((9,9))
-
     for i in range(4):
-
         P[2*i]   = np.array([-ps[i,0], -ps[i,1], -1, 0, 0, 0, ps[i,0]*qs[i,0], ps[i,1]*qs[i,0], qs[i,0]])
-
         P[2*i+1] = np.array([0, 0, 0, -ps[i,0], -ps[i,1], -1, ps[i,0]*qs[i,1], ps[i,1]*qs[i,1], qs[i,1]])
-
     P[-1,-1] = 1
-
-
-
     b = np.zeros((9))
-
     b[-1] = 1
-
-
-
     H = np.linalg.solve(P,b)
-
-    
-
     return H
 
 
 def predict():
     all_pred_H = dict()
-    model_path = "/home/saky/tmp/transpose100Epochs/model.h5"
+    model_path = "/home/saky/tmp/both_sides_rot_only/transpose/model.h5"
     ground_truth_file = "./docs/ground_truth.txt"
-    source_path = "/home/saky/tmp/test_data_pairs/"
+    source_path = "/home/saky/tmp/test_data_pairs_10_deg_only/"
     target_directory = "/home/saky/tmp/"
-    target_file = "transpose"
+    target_file = "two_sides_rot_only_transpose"
     target_csv = target_directory + target_file + ".csv"
     csvfile = open(target_csv, "w")
     csvwriter = csv.writer(csvfile)
@@ -56,8 +37,8 @@ def predict():
         print("Predicting " + sample + "...")
         sample_1 = sample_name.split("_")[0]
         sample_2 = sample_name.split("_")[1]
-        ground_truth_1 = ground_truth[int(sample_1)].split(" ")
-        ground_truth_2 = ground_truth[int(sample_2)].split(" ")
+        ground_truth_1 = ground_truth[int(sample_1) - 1].split(" ")
+        ground_truth_2 = ground_truth[int(sample_2) - 1].split(" ")
         tx_t = float(ground_truth_2[0]) - float(ground_truth_1[0])
         ty_t = float(ground_truth_2[1]) - float(ground_truth_1[1])
         theta_t = float(ground_truth_2[2]) - float(ground_truth_1[2])
