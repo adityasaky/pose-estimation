@@ -10,7 +10,7 @@ def computeHomographyFromH4P(H4p, img_dims):
     qs = ps - H4p
     P = np.zeros((9,9))
     for i in range(4):
-        P[2*i]   = np.array([-ps[i,0], -ps[i,1], -1, 0, 0, 0, ps[i,0]*qs[i,0], ps[i,1]*qs[i,0], qs[i,0]])
+        P[2*i] = np.array([-ps[i,0], -ps[i,1], -1, 0, 0, 0, ps[i,0]*qs[i,0], ps[i,1]*qs[i,0], qs[i,0]])
         P[2*i+1] = np.array([0, 0, 0, -ps[i,0], -ps[i,1], -1, ps[i,0]*qs[i,1], ps[i,1]*qs[i,1], qs[i,1]])
     P[-1,-1] = 1
     b = np.zeros((9))
@@ -21,11 +21,11 @@ def computeHomographyFromH4P(H4p, img_dims):
 
 def predict():
     all_pred_H = dict()
-    model_path = "/home/saky/tmp/both_sides_rot_only/transpose/model.h5"
+    model_path = "/home/saky/tmp/both_sides_10_5_5/transpose/model.h5"
     ground_truth_file = "./docs/ground_truth.txt"
-    source_path = "/home/saky/tmp/test_data_pairs_10_deg_only/"
-    target_directory = "/home/saky/tmp/"
-    target_file = "two_sides_rot_only_transpose"
+    source_path = "/home/saky/tmp/test_data_pairs_10_5_5/"
+    target_directory = "/home/saky/tmp/both_sides_10_5_5/"
+    target_file = "both_sides_10_5_5_transpose"
     target_csv = target_directory + target_file + ".csv"
     csvfile = open(target_csv, "w")
     csvwriter = csv.writer(csvfile)
