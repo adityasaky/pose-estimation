@@ -8,7 +8,7 @@ import cv2
 
 
 pcd_file = "/home/saky/tmp/test_data_extra_32/600.pcd"
-pkl_file = "2d_transformations/pickle_files_both_sides/tm_9.pkl"
+pkl_file = "2d_transformations/pickle_files_10/tm_4.5-.pkl"
 height = 64
 width = 64
 
@@ -28,10 +28,11 @@ def computeHomographyFromH4P(H4p, img_dims):
 
 
 def predict():
-    ground_truth_value = pk_file.split("/")[-1].split(".")[0].split("_")[1]
+    ground_truth_value = float(pkl_file.split("/")[-1].split("-")[0].split("_")[1])
     model_path = "/home/saky/tmp/both_sides_2/2018-05-14-18-27-02/model.h5"
     file_path = "test_file.npy"
     model = load_model(model_path)
+    print(model.summary())
     images = np.load(file_path)
     prediction = model.predict([np.array([np.array(images)])])
     prediction = prediction.reshape((4, 2))
@@ -47,6 +48,7 @@ def predict():
     print("Predicted degrees = {}".format(degrees))
     print("Ground truth degrees = {}".format(ground_truth_value))
     print("Accuracy = {}".format(accuracy))
+    os.remove("test_file.npy")
 
 
 def map_to_image(x, y):
