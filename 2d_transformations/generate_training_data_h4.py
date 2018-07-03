@@ -6,10 +6,10 @@ import pickle
 import sys
 
 
-source_directory = "../pointclouds_h4_test_32/"
-target_directory = "../dataset_h4_reduced_test_32/"
-h4_pickle_directory = "h4_pickle_files_reduced_64/"
-pickle_directory = "pickle_files_reduced/"
+source_directory = "../pointclouds/"
+target_directory = "/home/saky/tmp/original_set_center/"
+h4_pickle_directory = "./h4_pickle_files_both_sides_center/"
+pickle_directory = "./pickle_files_both_sides/"
 height = 64
 width = 64
 all_transformations_h4 = dict()
@@ -29,6 +29,16 @@ def get_transformations():
         with open(h4_pickle_directory + pkl_file, "rb") as t:
             transformation = pickle.load(t)
             all_transformations_h4[pkl_file.split('.')[0]] = transformation
+
+
+def make_pointcloud_positive(points_array):
+    result = list()
+    for point in points_array:
+        if abs(point[0]) <= 32.0 and abs(point[1]) <= 32.0:
+            point[0] += 32.0
+            point[1] += 32.0
+            result.append(point)
+    return np.array(result)
 
 
 def map_to_image(x, y):
@@ -60,8 +70,9 @@ def generate():
         if not os.path.exists(target_directory):
             os.makedirs(target_directory)
         all_points_array = all_points.to_array()
+        source_positive = make_pointcloud_positive(all_points.to_array())
         len_source = len(all_points_array)
-        source_image = cv2.cvtColor(create_image(all_points_array), cv2.COLOR_RGB2GRAY)
+        source_image = cv2.cvtColor(create_image(source_positive), cv2.COLOR_RGB2GRAY)
         all_points_matrix = np.transpose(np.matrix(all_points_array))
         transformed_images = list()
         ground_truth = list()
@@ -70,19 +81,20 @@ def generate():
             transformation = all_transformations[transformation_label]
             transformation_result_matrix = np.transpose(np.dot(transformation, all_points_matrix))
             transformation_result_array = np.array(transformation_result_matrix)
-            filtered_transformation_result_array = list()
-            for point in transformation_result_array:
-                if 0.0 <= point[0] <= 64.0 and 0.0 <= point[1] <= 64.0:
-                    filtered_transformation_result_array.append(point)
-            filtered_transformation_result_array = np.array(filtered_transformation_result_array)
-            len_filtered = len(filtered_transformation_result_array)
+            transformation_positive = make_pointcloud_positive(transformation_result_array)
+            len_filtered = len(transformation_positive)
             if float(len_filtered) / float(len_source) < 0.6:
                 continue
-            transformation_result_image = cv2.cvtColor(create_image(filtered_transformation_result_array), cv2.COLOR_RGB2GRAY)
+            transformation_result_image = cv2.cvtColor(create_image(transformation_positive), cv2.COLOR_RGB2GRAY)
             result_image = np.dstack((source_image, transformation_result_image))
             transformed_images.append(result_image)
             transformation_h4 = all_transformations_h4[transformation_label].flatten()
             ground_truth.append(transformation_h4)
+            '''target_name = source_name + "_" + transformation_label.split('_')[1]
+            print("Writing " + target_name + "...")
+            np.savez_compressed(target_directory + target_name,
+                                images=[result_image],
+                                truth=[transformation_h4])'''
         print("Writing " + source_name + "...")
         np.savez_compressed(target_directory + source_name,
                         images=transformed_images,
