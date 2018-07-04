@@ -1,5 +1,6 @@
 .DS_Store
 pointclouds_filtered
 venv
+results
 .idea
 *.pyc
