@@ -12,9 +12,10 @@ def main():
     epochs = 25
     batch_size = 19
     steps_per_epoch = 9804
-    training_data_directory = ""
+    validation_steps = 2451
+    training_data_directory = "/home/saky/Downloads/Telegram Desktop/full_set_center/full_set_center/train_set/"
     val_batch_size = 8
-    validation_data_directory = ""
+    validation_data_directory = "/home/saky/Downloads/Telegram Desktop/full_set_center/full_set_center/test_set/"
     day = str(datetime.datetime.now()).split('.')[0].split(' ')[0]
     time = '-'.join(str(datetime.datetime.now()).split('.')[0].split(' ')[1].split(':'))
     timestamp = day + '-' + time
@@ -37,6 +38,7 @@ def main():
     model.fit_generator(dat_loader(training_data_directory, batch_size),
                                     epochs=epochs,
                                     validation_data=dat_loader(validation_data_directory, val_batch_size),
+                                    validation_steps=validation_steps,
                                     steps_per_epoch=steps_per_epoch,
                                     callbacks=[checkpointer],
                                     shuffle=True)
